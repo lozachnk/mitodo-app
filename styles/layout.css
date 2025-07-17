@@ -1,0 +1,81 @@
+/* --- BASE --- */
+.container {
+  display: grid;
+  grid-template-columns: 300px 2fr;
+  height: 100vh;
+  width: 100%;
+
+  background: grey;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+  background: rgb(19, 19, 34);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.app-title {
+  margin-left: 4px;
+  font-size: 18px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.707);
+} 
+
+/* --- MAIN WINDOW --- */
+.main-window {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 50px 40px 100px;
+  background: rgb(24, 24, 39);
+  overflow: hidden;
+}
+
+.tasks-pane {
+  display: grid;
+  grid-auto-rows: 60px;
+  gap: 5px;
+  height: 100vh;
+  overflow: auto;
+}
+
+.new-task {
+  position: absolute;
+  padding: 15px 40px;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  height: 100px;
+}
+
+.input-wrapper {
+  position: relative;
+  height: 100%;
+}
+
+.input-actions {
+  position: absolute;
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+  top: 50%;
+  right: 15px;
+  height: 40px;
+  transform: translateY(-50%);
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+

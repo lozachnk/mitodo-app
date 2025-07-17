@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mitodo | Home</title>
+    <link rel="stylesheet" href="styles/base.css" />
+    <link rel="stylesheet" href="styles/layout.css" />
+    <link rel="stylesheet" href="styles/components.css" />
+    <link rel="stylesheet" href="styles/fonts/fontsheet.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="sidebar">
+        <div class="header section">
+          <div class="app-title">MITODO</div>
+          <input
+            type="text"
+            placeholder="Search tasks, tags, etc."
+            class="input-box search"
+            id=""
+          />
+        </div>
+
+        <div class="pages section">
+          <div class="today tab selected">Today</div>
+          <div class="planned tab">Planned</div>
+          <div class="all-tasks tab">Tasks</div>
+        </div>
+      </div>
+
+      <div class="main-window">
+        <div class="window-title">Today</div>
+        <div class="tasks-pane">
+          <!-- Rendered by JavaScript -->
+        </div>
+
+        <div class="new-task">
+          <div class="input-wrapper">
+            <div class="send checkbox"></div>
+            <input type="text" class="task-input" placeholder="Add a task">
+            <div class="input-actions">
+              <input type="date" class="datepicker" id="task-date">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
