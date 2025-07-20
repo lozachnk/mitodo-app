@@ -1,12 +1,16 @@
-import { removeTask } from "../data/tasks.js";
+import { completeTask, removeTask } from "../data/tasks.js";
 
 export function startDeleteListeners() {
-  const completeBtn = document.querySelectorAll(".tick.checkbox");
+  document.querySelectorAll('.task').forEach(task => {
+    const tickBox = task.querySelector('.tick.checkbox');
+    const { taskId } = tickBox.dataset;
 
-  completeBtn.forEach((btn) => {
-    const { taskId } = btn.dataset;
-    btn.addEventListener("click", () => {
-      removeTask(taskId);
-    });
+    task.addEventListener('click', (e) => {
+      if (e.target.closest('.tick.checkbox')) {
+        completeTask(taskId);
+      } else if (e.target.closest('.delete-btn')) {
+        removeTask(taskId);
+      }
+    })
   });
 }

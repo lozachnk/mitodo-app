@@ -2,6 +2,7 @@ import { createTaskCard, renderEmptyTask } from "../components/taskRender.js";
 import { startDeleteListeners } from "../components/eventListeners.js";
 
 export let tasksData;
+
 const taskInput = document.querySelector(".task-input");
 const tasksPanel = document.querySelector(".tasks-pane");
 
@@ -49,6 +50,18 @@ export function addTask() {
 
   renderTasks();
   saveToStorage();
+}
+
+export function completeTask(taskId) {
+  const selectedTask = tasksData.find((task) => task.uuid === taskId);
+  console.log(selectedTask);
+  
+  if (selectedTask) {
+    selectedTask.done = (selectedTask.done === true ? false : true);
+
+    renderTasks();
+    saveToStorage();
+  }
 }
 
 export function removeTask(taskId) {
