@@ -6,6 +6,16 @@
   }
 
 /* --- INPUTS --- */
+  #taskEdit {
+    position: absolute;
+    color: white;
+    background: none;
+    font-family: inherit;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.261);   
+  }
+
   .input-box {
     padding: 10px;
     color: inherit;
@@ -35,6 +45,44 @@
     background: rgba(255, 255, 255, 0.08);
   }
 
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.202);
+    background: rgba(255, 255, 255, 0.079);
+  }
+
+  .btn:hover {
+    background: rgba(255, 255, 255, 0.204);
+  }
+
+  .checkbox {
+    height: 24px;
+    width: 24px;
+    border-radius: 25px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .checkbox.checked {
+    background: var(--ctp-accent);
+  }
+
+  .checkbox.checked::before {
+    position: absolute;
+    content: "\f00c";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 12px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(19, 19, 34);
+  }
+
 /* --- TABS --- */
   .tab {
     position: relative;
@@ -55,7 +103,7 @@
     top: 50%;
     border-radius: 5px;
     transform: translateY(-50%);
-    background: rgb(115, 180, 224);
+    background: var(--ctp-accent);
   }
 
 /* --- TASKS UI --- */
@@ -95,25 +143,77 @@
     color: rgba(255, 255, 255, 0.658);
   }
 
-  .delete-btn {
-    position: absolute;
+  .importance {
     display: flex;
     align-items: center;
     justify-content: center;
-    right: 20px;
+    position: absolute;
     height: 30px;
     width: 30px;
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.202);
-    background: rgba(255, 255, 255, 0.079);
+    right: 15px;
+    color: grey;
+  }
+
+  .importance::before {
+    content: "\f005";
+    font-family: "Font Awesome 6 Free";
+  }
+
+  .importance:hover {
+    font-weight: 900;
+  }
+
+  .importance.checked {
+    color: rgb(115, 180, 224);
+    font-weight: 900;
+  }
+
+  .save.btn {
+    position: absolute;
+    right: 55px;
+    height: 30px;
+    padding: 0 8px;
+    font-family: inherit;
+    z-index: 1;
+  }
+
+  .task-actions {
+    position: absolute;
+    display: flex;
+    gap: 5px;
+    height: 30px;
+    right: 55px;
     visibility: hidden;
   }
 
-  .delete-btn:hover {
+  .delete.btn, 
+  .edit.btn {
+    height: 30px;
+    width: 30px;
+  }
+
+  .delete.btn::before {
+    content: "\f1f8";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 12px;
+    color: white;
+  }
+
+  .edit.btn::before {
+    content: "\f304";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 12px;
+    color: white;
+  } 
+
+  .delete.btn:hover {
     background: rgba(255, 0, 0, 0.548);
   }
 
-  .task:hover .delete-btn {
+  .task:hover .task-actions {
     visibility: visible;
   }
 
@@ -121,42 +221,13 @@
   .task-input {
     padding: 0 55px;
     font-size: 18px;
-    height: 100%;
+    height: 60px;
     width: 100%;
     color: inherit;
     border: none;
     border-radius: 8px;
     background-color: rgb(30, 30, 46);
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.493);
-  }
-
-  .add-btn {
-    font-size: 40px;
-    border: none;
-    background-color: rgb(108, 180, 216);
-  }
-
-  .checkbox {
-    height: 25px;
-    width: 25px;
-    border-radius: 8px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    background: rgba(0, 0, 0, 0.2);
-  }
-
-  .checkbox.checked {
-    background: rgb(115, 180, 224);
-  }
-
-  .checkbox.checked::before {
-    position: absolute;
-    content: "\f00c";
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: rgb(19, 19, 34);
   }
 
   .send.checkbox {

@@ -1,5 +1,10 @@
 :root {
   --font-dark: white;
+
+  /* Catppuccin */
+  --ctp-base: rgb(19, 19, 34);
+  --ctp-secondary: rgb(24, 24, 39);
+  --ctp-accent: rgb(115, 180, 224);
 }
 
 * {
@@ -19,4 +24,28 @@ input:focus {
   outline: none;
 }
 
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
 /* ---SCROLLBAR--- */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* thumb = the draggable part */
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2); /* subtle gray */
+  border-radius: 3px;
+}
+
+/* optional: hover state */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* optional: track background */
+::-webkit-scrollbar-track {
+  background: transparent;
+}

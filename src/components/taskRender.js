@@ -1,18 +1,21 @@
 export function createTaskCard(task) {
   return `
-    <div class="task">
+    <div class="task" data-task-id="${task.uuid}">
       <div 
-        class="tick checkbox ${returnCheckedState(task)}" 
-        data-task-id="${task.uuid}">
+        class="tick checkbox ${returnActiveState(task.done)}">
       </div>
-      <div class="task-info ${returnCheckedState(task)}">
+      <div class="task-info ${returnActiveState(task.done)}">
+        <input type="text" id="taskEdit" class="hidden">
         <div class="name">${task.taskName}</div>
         <div class="due-date">
           ${returnTaskDate(task)}
         </div>
       </div>
-      <div class="delete-btn">
-        <i class="fa fa-trash fa-sm"></i>
+      <div class="importance ${returnActiveState(task.important)}"></div>
+      <button class="save btn hidden">Save</button>
+      <div class="task-actions">
+        <button class="edit btn"></button>
+        <button class="delete btn"></buttons>
       </div>
     </div>
   `;
@@ -28,8 +31,8 @@ export function renderEmptyTask() {
   `;
 }
 
-function returnCheckedState(task) {
-  if (task.done === true) {
+function returnActiveState(state) {
+  if (state === true) {
     return "checked";
   } else {
     return "";
@@ -37,7 +40,7 @@ function returnCheckedState(task) {
 }
 
 function returnTaskDate(task) {
-  if (task.date !== '') {
+  if (task.date !== "") {
     return `<i class="fa-regular fa-calendar fa-sm"></i>&nbsp;${task.date}`;
   } else {
     return task.date;
