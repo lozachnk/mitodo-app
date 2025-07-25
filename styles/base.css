@@ -2,8 +2,9 @@
   --font-dark: white;
 
   /* Catppuccin */
-  --ctp-base: rgb(19, 19, 34);
-  --ctp-secondary: rgb(24, 24, 39);
+  --ctp-base: rgb(17, 17, 27);
+  --ctp-secondary: rgb(19, 19, 34);
+  --ctp-tertiary: rgb(24, 24, 39);
   --ctp-accent: rgb(115, 180, 224);
 }
 
@@ -16,7 +17,8 @@
 html, body {
   font-family: 'Figtree';
   height: 100vh;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   color: var(--font-dark);
 }
 

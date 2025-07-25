@@ -39,21 +39,29 @@
       </div>
 
       <div class="main-window">
-        <div class="window-title">Today</div>
-        <div class="tasks-pane">
-          <!-- Rendered by JavaScript -->
-        </div>
+        <div class="task-content"> <!-- Rerender task content here -->
+          <div class="window-head">
+            <div class="window-title">Today</div>
+          </div>
+          <div class="tasks-pane">
+            <!-- JS will populate this element -->
+          </div>
 
-        <div class="new-task">
-          <div class="input-wrapper">
-            <div class="send checkbox"></div>
-            <input type="text" class="task-input" placeholder="Add a task">
-            <div class="input-actions">
-              <input type="date" class="datepicker" id="task-date">
+          <div class="new-task">
+            <div class="input-wrapper">
+              <div class="send checkbox"></div>
+              <input type="text" class="task-input" placeholder="Add a task">
+              <div class="input-actions">
+                <input type="date" class="datepicker" id="task-date">
+              </div>
             </div>
           </div>
         </div>
 
+        <div class="info-sidebar">
+          <div><button class="close btn"></button></div>
+          <div class="info-shelf"></div>
+        </div>
       </div>
     </div>
     <script type="module" src="src/main.js"></script>

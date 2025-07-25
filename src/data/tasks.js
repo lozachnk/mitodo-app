@@ -1,21 +1,12 @@
-import { createTaskCard, renderEmptyTask } from "../components/taskRender.js";
-import { appendEventListeners } from "../components/eventListeners.js";
+import { createSidebarContent, createTaskCard, renderEmptyTask } from "../components/taskRender.js";
 
 export let tasksData;
 
 const taskInput = document.querySelector(".task-input");
 const tasksPanel = document.querySelector(".tasks-pane");
+const infoShelf = document.querySelector('.info-shelf');
 
 loadFromStorage();
-
-function loadFromStorage() {
-  tasksData = JSON.parse(localStorage.getItem("tasksData")) || [];
-  renderTasks();
-}
-
-function saveToStorage() {
-  localStorage.setItem("tasksData", JSON.stringify(tasksData));
-}
 
 export function renderTasks() {
   if (!tasksData.length) {
@@ -24,12 +15,10 @@ export function renderTasks() {
   } else {
     tasksPanel.classList.remove('empty');
 
-    tasksData.sort((a, b) => b.important - a.important);
+    tasksData.sort((a, b) => b.state.important - a.state.important);
     tasksPanel.innerHTML = tasksData
       .map((task) => createTaskCard(task))
       .join("");
-
-    appendEventListeners();
   }
 }
 
@@ -43,51 +32,48 @@ export function addTask() {
       uuid,
       taskName,
       date: date.value,
-      done: false,
-      important: false,
+      description: '',
+      steps: [],
+      state: {
+        done: false,
+        important: false,
+      },
     });
 
     taskInput.value = "";
     date.value = "";
   }
-
-  renderTasks();
-  saveToStorage();
+  renderAndSave();
 }
 
 export function toggleTaskState(taskId, property) {
   const selectedTask = tasksData.find((task) => task.uuid === taskId);
-
   if (selectedTask) {
-    selectedTask[property] = !selectedTask[property];
-    
-    renderTasks();
-    saveToStorage();
+    selectedTask.state[property] = !selectedTask?.state?.[property];
+    renderSidebarContent(selectedTask.uuid);
+    renderAndSave();
   }
 }
 
 export function removeTask(taskId) {
   tasksData = tasksData.filter((task) => task.uuid !== taskId);
-  renderTasks();
-  saveToStorage();
+  renderAndSave();
 }
 
 export function editTask(task, taskId) {
+  const taskName = task.querySelector('.name');
+  const editName = task.querySelector('#taskEdit');
+  const saveBtn = task.querySelector('.save.btn');
+  const taskActions = task.querySelector('.task-actions');
   const selectedTask = tasksData.find((t) =>  t.uuid === taskId);
   let isEditing = false;
 
   if (selectedTask) {
     isEditing = true;
-
-    const taskName = task.querySelector('.name');
-    const editName = task.querySelector('#taskEdit');
-    const saveBtn = task.querySelector('.save.btn');
-    const taskActions = task.querySelector('.task-actions');
-
     isEditingMode();
     editName.focus();
 
-    editName.style.setProperty('min-width', `${taskName.offsetWidth}px`);
+    editName.style.setProperty('width', `${taskName.offsetWidth}px`);
     editName.value = selectedTask.taskName;
 
     saveBtn.addEventListener('click', () => {
@@ -95,19 +81,15 @@ export function editTask(task, taskId) {
     });
 
     editName.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        saveName();
-      }
-    });
+      if (e.key === 'Enter') saveName()});
 
     function saveName() {
       isEditing = false;
-      if (editName.value !== "") 
-        selectedTask.taskName = editName.value;
+      if (editName.value !== "") selectedTask.taskName = editName.value;
       
       isEditingMode();
-      renderTasks();
-      saveToStorage();
+      renderAndSave();
+      renderSidebarContent(selectedTask.uuid);
     }
 
     function isEditingMode() {
@@ -124,4 +106,25 @@ export function editTask(task, taskId) {
       }
     }
   }
+}
+
+export function renderSidebarContent(taskId) {
+  const selectedTask = tasksData.find(task => task.uuid === taskId);
+  infoShelf.innerHTML = createSidebarContent(selectedTask);
+
+  
+}
+
+function loadFromStorage() {
+  tasksData = JSON.parse(localStorage.getItem("tasksData")) || [];
+  renderTasks();
+}
+
+function saveToStorage() {
+  localStorage.setItem("tasksData", JSON.stringify(tasksData));
+}
+
+function renderAndSave() {
+  renderTasks();
+  saveToStorage();  
 }
