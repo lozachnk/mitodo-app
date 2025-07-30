@@ -45,6 +45,45 @@
   overflow-y: auto;
 }
 
+.window-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.window-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.window-actions > .btn {
+  position: relative;
+  padding: 10px 20px 10px 50px;
+}
+
+#deleteSelected::before,
+#importantAll::before,
+#completeAll::before {
+  position: absolute;
+  left: 20px;
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 14px;
+  color: white;
+}
+
+#deleteSelected::before {
+  content: "\f1f8";
+}
+
+#importantAll::before {
+  content: "\f005";
+}
+
+#completeAll::before {
+  content: "\f00c";
+}
+
 .task-content {
   position: relative;
   display: flex;
@@ -135,8 +174,23 @@
   transition: margin-right 100ms ease-in-out; 
 }
 
-.pseudo-info {
+.info-shelf {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.info-sidebar__actions {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 20px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  border-top: 1px solid rgba(255, 255, 255, 0.074);
+  background: rgba(255, 255, 255, 0.02);
 }

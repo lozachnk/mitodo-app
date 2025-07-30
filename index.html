@@ -39,9 +39,14 @@
       </div>
 
       <div class="main-window">
-        <div class="task-content"> <!-- Rerender task content here -->
+        <div class="task-content">
           <div class="window-head">
             <div class="window-title">Today</div>
+            <div class="window-actions hidden">
+              <button class="btn" id="completeAll">Mark as completed</button>
+              <button class="btn" id="importantAll">Mark as important</button>
+              <button class="btn" id="deleteSelected">Delete tasks</button>
+            </div>
           </div>
           <div class="tasks-pane">
             <!-- JS will populate this element -->
@@ -50,17 +55,35 @@
           <div class="new-task">
             <div class="input-wrapper">
               <div class="send checkbox"></div>
-              <input type="text" class="task-input" placeholder="Add a task">
+              <input type="text" class="task-input" placeholder="Add a task" />
               <div class="input-actions">
-                <input type="date" class="datepicker" id="task-date">
+                <input type="date" class="datepicker" id="task-date" />
               </div>
             </div>
           </div>
         </div>
 
         <div class="info-sidebar">
-          <div><button class="close btn"></button></div>
-          <div class="info-shelf"></div>
+          <button class="close btn"></button>
+          <div class="info-shelf">
+            <div class="info-shelf__task-info">
+              <div class="tick checkbox"></div>
+              <h3></h3>
+            </div>
+
+            <div class="detailed-action">
+              <p>Due date</p>
+              <input type="date" id="dateEdit" />
+            </div>
+
+            <div class="detailed-action">
+              <p>Description</p>
+              <textarea class="task-description"></textarea>
+            </div>
+          </div>
+          <div class="info-sidebar__actions">
+            <button class="delete btn"></button>
+          </div>
         </div>
       </div>
     </div>

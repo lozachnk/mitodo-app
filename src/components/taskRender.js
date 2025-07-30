@@ -1,42 +1,3 @@
-export function createTaskCard(task) {
-  return `
-    <div class="task" data-task-id="${task.uuid}">
-      <div 
-        class="tick checkbox ${returnActiveState(task.state.done)}">
-      </div>
-      <div class="task-info ${returnActiveState(task.state.done)}">
-        <input type="text" id="taskEdit" class="hidden">
-        <div class="name">${task.taskName}</div>
-        <div class="due-date">
-          ${returnTaskDate(task)}
-        </div>
-      </div>
-      <div class="importance ${returnActiveState(task.state.important)}"></div>
-      <button class="save btn hidden">Save</button>
-      <div class="task-actions">
-        <button class="edit btn"></button>
-        <button class="delete btn"></buttons>
-      </div>
-    </div>
-  `;
-}
-
-function returnActiveState(state) {
-  if (state === true) {
-    return "checked";
-  } else {
-    return "";
-  }
-}
-
-function returnTaskDate(task) {
-  if (task.date !== "") {
-    return `<i class="fa-regular fa-calendar fa-sm"></i>&nbsp;${task.date}`;
-  } else {
-    return task.date;
-  }
-}
-
 export function renderEmptyTask() {
   return `
     <div class="all-done">
@@ -47,23 +8,28 @@ export function renderEmptyTask() {
   `;
 }
 
-export function createSidebarContent(selectedTask) {
-  return `
-      <div class="pseudo-info">
-        <div class="pseudo-name">
-          <div class="tick checkbox ${returnActiveState(selectedTask.state.done)}"></div>
-          <h3 class="${returnActiveState(selectedTask.state.done)}">${selectedTask.taskName}</h3>
-        </div>
+export function createTaskEl(task) {
+  const taskEl = el('div', 'task', null, { taskId: task.uuid });
+  const checkBox = el('div', 'tick checkbox');
+  const taskInfo = el('div', 'task-info');
+  const name = el('div', 'name', task.taskName);
+  const dueDate = el('div', 'due-date', task.date);
+  const star = el('div', 'importance');
 
-        <div class="detailed-action">
-          <p>Due date</p>
-          <input type="date" value="${selectedTask.date}" id="dateEdit">
-        </div>
+  taskInfo.append(name, dueDate);
+  taskEl.append(checkBox, taskInfo, star);
 
-        <div class="detailed-action">
-          <p>Description</p>
-          <textarea class="task-description">${selectedTask.description}</textarea>
-        </div>
-      </div>
-    `;
+  return taskEl;
+}
+
+function el(tag, classList, textContent, dataset = {}) {
+  const element = document.createElement(tag);
+  if (classList) element.className = classList;
+  if (textContent) element.textContent = textContent;
+
+  for (const key in dataset) {
+    element.dataset[key] = dataset[key];
+  }
+
+  return element;
 }

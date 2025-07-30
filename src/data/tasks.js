@@ -1,10 +1,9 @@
-import { createSidebarContent, createTaskCard, renderEmptyTask } from "../components/taskRender.js";
+import { createTaskEl, renderEmptyTask } from "../components/taskRender.js";
 
 export let tasksData;
 
 const taskInput = document.querySelector(".task-input");
 const tasksPanel = document.querySelector(".tasks-pane");
-const infoShelf = document.querySelector('.info-shelf');
 
 loadFromStorage();
 
@@ -13,22 +12,25 @@ export function renderTasks() {
     tasksPanel.innerHTML = renderEmptyTask();
     tasksPanel.classList.add('empty');
   } else {
-    tasksPanel.classList.remove('empty');
-
-    tasksData.sort((a, b) => b.state.important - a.state.important);
-    tasksPanel.innerHTML = tasksData
-      .map((task) => createTaskCard(task))
-      .join("");
+    tasksData.map((task) =>{ 
+      tasksPanel.append(createTaskEl(task));
+      reflectTaskState(task.uuid);
+    });
   }
 }
 
 export function addTask() {
+  if (!tasksData.length) {
+    tasksPanel.classList.remove('empty');
+    tasksPanel.innerHTML = '';
+  }
+
   const uuid = crypto.randomUUID();
   let taskName = taskInput.value;
   let date = document.getElementById("task-date");
 
   if (taskName !== "") {
-    tasksData.push({
+    const newTask = {
       uuid,
       taskName,
       date: date.value,
@@ -38,81 +40,79 @@ export function addTask() {
         done: false,
         important: false,
       },
-    });
+    }
+
+    tasksData = [...tasksData, newTask];
+    
+    const taskEl = createTaskEl(newTask);
+    tasksPanel.append(taskEl);
 
     taskInput.value = "";
     date.value = "";
+
+    saveToStorage();
   }
-  renderAndSave();
 }
 
-export function toggleTaskState(taskId, property) {
-  const selectedTask = tasksData.find((task) => task.uuid === taskId);
-  if (selectedTask) {
-    selectedTask.state[property] = !selectedTask?.state?.[property];
-    renderSidebarContent(selectedTask.uuid);
-    renderAndSave();
-  }
+export function toggleTaskState(taskId, property) {  
+  tasksData = tasksData.map(task => {
+    if (task.uuid === taskId) {
+      return {
+        ...task,
+        state: {
+          ...task.state,
+          [property]: !task.state[property],
+        },
+      }
+    }
+    return task;
+  });
+  saveToStorage();
+  reflectTaskState(taskId);
+}
+
+function reflectTaskState(taskId) {
+  tasksData.map(task => {
+    if (task.uuid === taskId) {
+      const taskEl = document.querySelector(`.task[data-task-id="${taskId}"]`);
+      const checkBox = taskEl.querySelector('.tick.checkbox');
+      const taskInfo = taskEl.querySelector('.task-info');
+      const star = taskEl.querySelector('.importance');
+
+      updateState(task, checkBox, taskInfo, star);
+    }
+  });
 }
 
 export function removeTask(taskId) {
   tasksData = tasksData.filter((task) => task.uuid !== taskId);
-  renderAndSave();
-}
+  document.querySelector(`.task[data-task-id="${taskId}"]`).remove();
+  saveToStorage();
 
-export function editTask(task, taskId) {
-  const taskName = task.querySelector('.name');
-  const editName = task.querySelector('#taskEdit');
-  const saveBtn = task.querySelector('.save.btn');
-  const taskActions = task.querySelector('.task-actions');
-  const selectedTask = tasksData.find((t) =>  t.uuid === taskId);
-  let isEditing = false;
-
-  if (selectedTask) {
-    isEditing = true;
-    isEditingMode();
-    editName.focus();
-
-    editName.style.setProperty('width', `${taskName.offsetWidth}px`);
-    editName.value = selectedTask.taskName;
-
-    saveBtn.addEventListener('click', () => {
-      saveName();
-    });
-
-    editName.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') saveName()});
-
-    function saveName() {
-      isEditing = false;
-      if (editName.value !== "") selectedTask.taskName = editName.value;
-      
-      isEditingMode();
-      renderAndSave();
-      renderSidebarContent(selectedTask.uuid);
-    }
-
-    function isEditingMode() {
-      if (isEditing) {
-        taskName.classList.add('hidden');
-        taskActions.classList.add('hidden');
-        editName.classList.remove('hidden');
-        saveBtn.classList.remove('hidden');
-      } else {
-        taskName.classList.remove('hidden');
-        taskActions.classList.remove('hidden');
-        editName.classList.add('hidden');
-        saveBtn.classList.add('hidden');
-      }
-    }
+  if (!tasksData.length) {
+    renderTasks();
   }
 }
 
-export function renderSidebarContent(taskId) {
-  const selectedTask = tasksData.find(task => task.uuid === taskId);
-  infoShelf.innerHTML = createSidebarContent(selectedTask);
-
+export function updateSidebarContents(taskId) {
+  const task = tasksData.find(t => t.uuid === taskId);
   
+  const sidebarEl = document.querySelector('.info-shelf');
+  const taskName = sidebarEl.querySelector('h3');
+  const checkbox = sidebarEl.querySelector('.tick.checkbox');
+  const datePickerUI = sidebarEl.querySelector('#dateEdit');
+
+  sidebarEl.dataset.taskId = task.uuid;
+  taskName.textContent = task.taskName;
+  datePickerUI.value = task.date;
+
+  updateState(task, checkbox, taskName);
+}
+
+function updateState(task, checkbox, taskName, star) {
+  if (checkbox) checkbox.classList.toggle('checked', task.state.done);
+  if (taskName) taskName.classList.toggle('checked', task.state.done);
+  if (star) star.classList.toggle('checked', task.state.important);
 }
 
 function loadFromStorage() {
@@ -122,9 +122,4 @@ function loadFromStorage() {
 
 function saveToStorage() {
   localStorage.setItem("tasksData", JSON.stringify(tasksData));
-}
-
-function renderAndSave() {
-  renderTasks();
-  saveToStorage();  
 }
