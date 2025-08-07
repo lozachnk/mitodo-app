@@ -54,6 +54,22 @@ export function addTask() {
   }
 }
 
+export function editTaskInfo(taskId) {
+  const taskInfo = document.querySelector('.task-description');
+
+  tasksData = tasksData.map(task => {
+    if (task.uuid === taskId) {
+      return {
+        ...task,
+        description: taskInfo.value,
+      }
+    }
+    return task;
+  });
+
+  saveToStorage();
+}
+
 export function toggleTaskState(taskId, property) {  
   tasksData = tasksData.map(task => {
     if (task.uuid === taskId) {
@@ -71,19 +87,6 @@ export function toggleTaskState(taskId, property) {
   reflectTaskState(taskId);
 }
 
-function reflectTaskState(taskId) {
-  tasksData.map(task => {
-    if (task.uuid === taskId) {
-      const taskEl = document.querySelector(`.task[data-task-id="${taskId}"]`);
-      const checkBox = taskEl.querySelector('.tick.checkbox');
-      const taskInfo = taskEl.querySelector('.task-info');
-      const star = taskEl.querySelector('.importance');
-
-      updateState(task, checkBox, taskInfo, star);
-    }
-  });
-}
-
 export function removeTask(taskId) {
   tasksData = tasksData.filter((task) => task.uuid !== taskId);
   document.querySelector(`.task[data-task-id="${taskId}"]`).remove();
@@ -94,25 +97,23 @@ export function removeTask(taskId) {
   }
 }
 
-export function updateSidebarContents(taskId) {
-  const task = tasksData.find(t => t.uuid === taskId);
-  
-  const sidebarEl = document.querySelector('.info-shelf');
-  const taskName = sidebarEl.querySelector('h3');
-  const checkbox = sidebarEl.querySelector('.tick.checkbox');
-  const datePickerUI = sidebarEl.querySelector('#dateEdit');
-
-  sidebarEl.dataset.taskId = task.uuid;
-  taskName.textContent = task.taskName;
-  datePickerUI.value = task.date;
-
-  updateState(task, checkbox, taskName);
-}
-
-function updateState(task, checkbox, taskName, star) {
+export function updateState(task, checkbox, taskName, star) {
   if (checkbox) checkbox.classList.toggle('checked', task.state.done);
   if (taskName) taskName.classList.toggle('checked', task.state.done);
   if (star) star.classList.toggle('checked', task.state.important);
+}
+
+function reflectTaskState(taskId) {
+  tasksData.forEach(task => {
+    if (task.uuid === taskId) {
+      const taskEl = document.querySelector(`.task[data-task-id="${taskId}"]`);
+      const checkBox = taskEl.querySelector('.tick.checkbox');
+      const taskInfo = taskEl.querySelector('.task-info');
+      const star = taskEl.querySelector('.importance');
+
+      updateState(task, checkBox, taskInfo, star);
+    }
+  });
 }
 
 function loadFromStorage() {

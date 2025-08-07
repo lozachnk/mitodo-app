@@ -13,10 +13,12 @@
       referrerpolicy="no-referrer"
     />
 
-    <link rel="stylesheet" href="styles/base.css" />
-    <link rel="stylesheet" href="styles/layout.css" />
-    <link rel="stylesheet" href="styles/components.css" />
+    <link rel="stylesheet" href="styles/css/base.css" />
+    <link rel="stylesheet" href="styles/css/layout.css" />
+    <link rel="stylesheet" href="styles/css/components.css" />
     <link rel="stylesheet" href="styles/fonts/fontsheet.css" />
+
+    <script type="module" src="src/main.js" defer></script>
   </head>
   <body>
     <div class="container">
@@ -79,6 +81,7 @@
             <div class="detailed-action">
               <p>Description</p>
               <textarea class="task-description"></textarea>
+              <button class="save btn hidden" id="saveInfo">Save</button>
             </div>
           </div>
           <div class="info-sidebar__actions">
@@ -87,6 +90,5 @@
         </div>
       </div>
     </div>
-    <script type="module" src="src/main.js"></script>
   </body>
 </html>

@@ -173,15 +173,6 @@
     text-decoration: none;
   }
 
-  .save.btn {
-    position: absolute;
-    right: 55px;
-    height: 30px;
-    padding: 0 8px;
-    font-family: inherit;
-    z-index: 1;
-  }
-
   .task-actions {
     position: absolute;
     display: flex;
