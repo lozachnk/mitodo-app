@@ -70,6 +70,22 @@ export function editTaskInfo(taskId) {
   saveToStorage();
 }
 
+export function editTaskName(taskId) {
+  const newName = document.getElementById('nameEdit');
+
+  tasksData = tasksData.map(task => {
+    if (task.uuid === taskId) {
+      return {
+        ...task,
+        taskName: newName.value,
+      }
+    }
+    return task;
+  });
+
+  saveToStorage();
+}
+
 export function toggleTaskState(taskId, property) {  
   tasksData = tasksData.map(task => {
     if (task.uuid === taskId) {
@@ -97,10 +113,16 @@ export function removeTask(taskId) {
   }
 }
 
-export function updateState(task, checkbox, taskName, star) {
+export function updateState(task, taskEl, checkbox, taskName, star) {
   if (checkbox) checkbox.classList.toggle('checked', task.state.done);
   if (taskName) taskName.classList.toggle('checked', task.state.done);
-  if (star) star.classList.toggle('checked', task.state.important);
+  if (star) {
+    star.classList.toggle('checked', task.state.important);
+
+    if (task.state.important) {
+      tasksPanel.insertBefore(taskEl, tasksPanel.firstElementChild);
+    }
+  }
 }
 
 function reflectTaskState(taskId) {
@@ -111,7 +133,7 @@ function reflectTaskState(taskId) {
       const taskInfo = taskEl.querySelector('.task-info');
       const star = taskEl.querySelector('.importance');
 
-      updateState(task, checkBox, taskInfo, star);
+      updateState(task, taskEl, checkBox, taskInfo, star);
     }
   });
 }

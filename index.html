@@ -50,6 +50,7 @@
               <button class="btn" id="deleteSelected">Delete tasks</button>
             </div>
           </div>
+
           <div class="tasks-pane">
             <!-- JS will populate this element -->
           </div>
@@ -70,7 +71,9 @@
           <div class="info-shelf">
             <div class="info-shelf__task-info">
               <div class="tick checkbox"></div>
-              <h3></h3>
+              <h3 id="taskName"></h3>
+              <textarea id="nameEdit" class="edit-field" rows="1"></textarea>
+              <div class="edit btn"></div>
             </div>
 
             <div class="detailed-action">
@@ -81,7 +84,9 @@
             <div class="detailed-action">
               <p>Description</p>
               <textarea class="task-description"></textarea>
-              <button class="save btn hidden" id="saveInfo">Save</button>
+              <div class="desc-actions">
+                <button class="save btn hidden" id="saveInfo">Save</button>  
+              </div>
             </div>
           </div>
           <div class="info-sidebar__actions">

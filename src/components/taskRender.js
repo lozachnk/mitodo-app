@@ -13,10 +13,12 @@ export function createTaskEl(task) {
   const name = el("div", { classList: "name", textContent: task.taskName });
   const dueDate = el("div", { classList: "due-date", textContent: task.date });
   const star = el("div", { classList: "importance" });
+
   const taskInfo = el("div", {
     classList: "task-info",
     childNodes: [name, dueDate],
   });
+
   const taskEl = el("div", {
     classList: "task",
     dataset: { taskId: task.uuid },
